@@ -1,0 +1,97 @@
+services:
+  - type: web
+    name: crypto-scalp-api
+    env: docker
+    region: oregon
+    plan: free
+    dockerfilePath: ./Dockerfile
+    startCommand: python -m src.services.api_server
+    envVars:
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false
+      - key: TELEGRAM_CHAT_ID
+        sync: false
+      - key: EXCHANGE_NAME
+        value: binance
+      - key: INITIAL_CASH
+        value: "1000"
+      - key: TRADING_SYMBOLS
+        value: BTC/USDT,ETH/USDT,BNB/USDT,SOL/USDT,XRP/USDT,ADA/USDT
+      - key: TIMEFRAME
+        value: 5m
+      - key: REDIS_URL
+        sync: false
+      - key: API_HOST
+        value: 0.0.0.0
+      - key: API_PORT
+        value: "8000"
+      - key: LOG_LEVEL
+        value: INFO
+
+  - type: background_worker
+    name: crypto-scalp-arena-manager
+    env: docker
+    region: oregon
+    plan: free
+    dockerfilePath: ./Dockerfile
+    startCommand: python -m src.services.arena_manager
+    envVars:
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false
+      - key: TELEGRAM_CHAT_ID
+        sync: false
+      - key: INITIAL_CASH
+        value: "1000"
+      - key: TRADING_SYMBOLS
+        value: BTC/USDT,ETH/USDT,BNB/USDT,SOL/USDT,XRP/USDT,ADA/USDT
+      - key: REDIS_URL
+        sync: false
+      - key: LOG_LEVEL
+        value: INFO
+
+  - type: background_worker
+    name: crypto-scalp-data-feed
+    env: docker
+    region: oregon
+    plan: free
+    dockerfilePath: ./Dockerfile
+    startCommand: python -m src.services.data_feed
+    envVars:
+      - key: EXCHANGE_NAME
+        value: binance
+      - key: TRADING_SYMBOLS
+        value: BTC/USDT,ETH/USDT,BNB/USDT,SOL/USDT,XRP/USDT,ADA/USDT
+      - key: TIMEFRAME
+        value: 5m
+      - key: REDIS_URL
+        sync: false
+      - key: LOG_LEVEL
+        value: INFO
+
+  - type: background_worker
+    name: crypto-scalp-telegram
+    env: docker
+    region: oregon
+    plan: free
+    dockerfilePath: ./Dockerfile
+    startCommand: python -m src.services.telegram_service
+    envVars:
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false
+      - key: TELEGRAM_CHAT_ID
+        sync: false
+      - key: TELEGRAM_REPORT_INTERVAL
+        value: "3600"
+      - key: REDIS_URL
+        sync: false
+      - key: LOG_LEVEL
+        value: INFO
+
+databases:
+  - name: crypto-scalp-postgres
+    databaseName: crypto_scalp_arena
+    user: crypto_user
+    plan: free
+
+  - name: crypto-scalp-redis
+    plan: free
