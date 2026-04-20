@@ -1,1 +1,27 @@
-FROM python:3.11-slim\n\n# Set working directory\nWORKDIR /app\n\n# Install system dependencies\nRUN apt-get update && apt-get install -y \\\n    gcc \\\n    g++ \\\n    make \\\n    libffi-dev \\\n    libssl-dev \\\n    && rm -rf /var/lib/apt/lists/*\n\n# Copy project files\nCOPY pyproject.toml pyproject.toml\nCOPY src/ src/\nCOPY config/ config/\n\n# Install Python dependencies\nRUN pip install --no-cache-dir -e .\n\n# Create logs directory\nRUN mkdir -p logs\n\n# Default command\nCMD [\"python\", \"-m\", \"src.services.api_server\"]\n
+FROM python:3.11-slim
+
+# Set working directory
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    gcc \
+    g++ \
+    make \
+    libffi-dev \
+    libssl-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy project files
+COPY requirements.txt requirements.txt
+COPY src/ src/
+COPY config/ config/
+
+# Install Python dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Create logs directory
+RUN mkdir -p logs
+
+# Default command
+CMD ["python", "-m", "src.services.api_server"]
