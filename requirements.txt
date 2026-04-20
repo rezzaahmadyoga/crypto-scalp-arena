@@ -1,1 +1,16 @@
-ccxt>=4.0.0\npandas>=2.0.0\nnumpy>=1.24.0\npandas-ta>=0.3.14b0\nfastapi>=0.104.0\nuvicorn>=0.24.0\npydantic>=2.0.0\nsqlalchemy>=2.0.0\npsycopg2-binary>=2.9.0\nredis>=5.0.0\npython-telegram-bot>=20.0\naiohttp>=3.9.0\npython-dotenv>=1.0.0\npydantic-settings>=2.0.0\nAPScheduler>=3.10.0\nwebsockets>=12.0\nta-lib>=0.4.28\n
+ccxt>=4.0.0
+pandas>=2.0.0
+numpy>=1.24.0
+pandas-ta>=0.3.14b0
+fastapi>=0.104.0
+uvicorn>=0.24.0
+pydantic>=2.0.0
+sqlalchemy>=2.0.0
+psycopg2-binary>=2.9.0
+redis>=5.0.0
+python-telegram-bot>=20.0
+aiohttp>=3.9.0
+python-dotenv>=1.0.0
+pydantic-settings>=2.0.0
+APScheduler>=3.10.0
+websockets>=12.0
